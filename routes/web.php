@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CalculateBarbell;
+use App\Http\Controllers\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,24 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/barbellcalc', [CalculateBarbell::class, 'index'])
+    ->name('barbellcalc.index');
+
+
+
+Route::prefix('login')->group(function() {
+    Route::get('/', [AuthController::class, 'index'])
+        ->name('login');
+
+    Route::post('/', [AuthController::class, 'login']);
+
+    Route::get('/create', [AuthController::class, 'create'])
+        ->name('auth.create');
+
+    Route::post('/create', [AuthController::class, 'store'])
+        ->name('auth.store');
+});
+
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->name('logout');

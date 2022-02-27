@@ -16,6 +16,11 @@ const WEIGHT_VALUES = array(
 
 class CalculateBarbell extends Controller
 {
+    public function index(Request $request)
+    {
+        return view('barbellcalc.index');
+    }
+
     public function calculate(Request $request){
 
         $data = $request->all();
