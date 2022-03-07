@@ -2164,37 +2164,40 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-var barbellForm = document.getElementById('barbellForm');
-var targetWeight = document.getElementById('targetWeightInput');
-var barbellWeight = document.getElementById('barbellWeight');
-var resultsBody = document.getElementById('resultsBody');
-barbellForm.addEventListener('submit', function (e) {
-  e.preventDefault();
-  var data = {
-    'targetWeight': targetWeight.value,
-    'barbellWeight': barbellWeight.value
-  };
-  axios.post(barbellCalcUrl, data).then(function (r) {
-    appendResultsTable(targetWeight.value, barbellWeight.value, r.data);
-    targetWeight.focus();
-  })["catch"](function (err) {
-    console.log(err);
-  });
-});
+var mobileMenu = document.getElementById('mobile-menu');
+var mobileMenuButton = document.getElementById('mobile-menu-button');
 
-function appendResultsTable(targetW, barbellW, weights) {
-  var returnHTML = document.createElement('tr');
-  var tWeight = document.createElement('td');
-  tWeight.innerHTML = targetW;
-  var bWeight = document.createElement('td');
-  bWeight.innerHTML = barbellW;
-  returnHTML.append(tWeight, bWeight);
-  weights.forEach(function (weight) {
-    var weightEle = document.createElement('td');
-    weightEle.innerHTML = weight.count.toString();
-    returnHTML.append(weightEle);
+if (mobileMenu && mobileMenuButton) {
+  mobileMenuToggle(mobileMenu, mobileMenuButton);
+}
+
+var userMenu = document.getElementById('user-menu');
+var userMenuButton = document.getElementById('user-menu-button');
+
+if (userMenu && userMenuButton) {
+  mobileMenuToggle(userMenu, userMenuButton);
+  var isOverMenu = false;
+  userMenu.addEventListener('mouseover', function () {
+    isOverMenu = true;
   });
-  resultsBody.append(returnHTML);
+  userMenu.addEventListener('mouseleave', function () {
+    if (isOverMenu) {
+      setTimeout(function () {
+        userMenu.classList.add('hidden');
+        isOverMenu = false;
+      }, 500);
+    }
+  });
+}
+
+function mobileMenuToggle(mobileMenuHtmlElement, mobileMenuHtmlButton) {
+  mobileMenuHtmlButton.addEventListener('click', function () {
+    if (mobileMenuHtmlElement.classList.contains('hidden')) {
+      mobileMenuHtmlElement.classList.remove('hidden');
+    } else {
+      mobileMenuHtmlElement.classList.add('hidden');
+    }
+  });
 }
 
 /***/ }),

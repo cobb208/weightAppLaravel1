@@ -1,49 +1,50 @@
 require('./bootstrap');
 
 
-
-const barbellForm = document.getElementById('barbellForm');
-const targetWeight = document.getElementById('targetWeightInput');
-const barbellWeight = document.getElementById('barbellWeight');
-const resultsBody = document.getElementById('resultsBody');
-
-
-barbellForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const data = {
-        'targetWeight': targetWeight.value,
-        'barbellWeight': barbellWeight.value
-    }
-
-    axios.post(barbellCalcUrl, data)
-        .then(r => {
-            appendResultsTable(targetWeight.value, barbellWeight.value, r.data);
-            targetWeight.focus();
-        })
-        .catch(err => {
-            console.log(err);
-        });
-})
-
-function appendResultsTable(targetW, barbellW, weights)
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileMenuButton = document.getElementById('mobile-menu-button');
+if(mobileMenu && mobileMenuButton)
 {
-    const returnHTML = document.createElement('tr');
+    mobileMenuToggle(mobileMenu, mobileMenuButton);
+}
 
-    const tWeight = document.createElement('td');
-    tWeight.innerHTML = targetW;
+const userMenu = document.getElementById('user-menu');
+const userMenuButton = document.getElementById('user-menu-button');
 
-    const bWeight = document.createElement('td');
-    bWeight.innerHTML = barbellW;
+if(userMenu && userMenuButton)
+{
+    mobileMenuToggle(userMenu, userMenuButton);
 
-    returnHTML.append(tWeight, bWeight);
+    let isOverMenu = false;
 
-    weights.forEach(weight => {
-        const weightEle = document.createElement('td');
-        weightEle.innerHTML = weight.count.toString();
-        returnHTML.append(weightEle);
-    })
+    userMenu.addEventListener('mouseover', function() {
+        isOverMenu = true;
+    });
 
-    resultsBody.append(returnHTML);
+    userMenu.addEventListener('mouseleave', function() {
+        if(isOverMenu)
+        {
+            setTimeout(function() {
+                userMenu.classList.add('hidden');
+                isOverMenu = false;
+            }, 500);
+        }
+    });
 
+
+
+}
+
+function mobileMenuToggle(mobileMenuHtmlElement, mobileMenuHtmlButton)
+{
+    mobileMenuHtmlButton.addEventListener('click', function()
+    {
+        if(mobileMenuHtmlElement.classList.contains('hidden'))
+        {
+            mobileMenuHtmlElement.classList.remove('hidden');
+        } else
+        {
+            mobileMenuHtmlElement.classList.add('hidden');
+        }
+    });
 }

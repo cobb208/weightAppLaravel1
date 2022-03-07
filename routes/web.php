@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CalculateMax;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CalculateBarbell;
 use App\Http\Controllers\Auth\AuthController;
@@ -16,11 +17,17 @@ use App\Http\Controllers\Auth\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome',
+        [
+            'active' => 'home'
+        ]
+    );
 });
 
-Route::get('/barbellcalc', [CalculateBarbell::class, 'index'])
-    ->name('barbellcalc.index');
+Route::get('/barbellCalculator', [CalculateBarbell::class, 'index'])
+    ->name('barbellCalculator.index');
+
+Route::resource('calculateMax', CalculateMax::class);
 
 
 

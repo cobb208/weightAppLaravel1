@@ -1,6 +1,9 @@
 @extends('components.main')
 @section('title', 'Barbell Calculator')
 @section('body')
+    <div class="w-full">
+        <p class="text-gray-600 italic">Enter what weight you are trying to achieve and you will see how many of each plate you need.</p>
+    </div>
     <div class="flex flex-col md:flex-row mt-3">
         <div class="basis-1/4 border-black border-solid border-2 mx-5">
             <form class="m-5" action="#" id="barbellForm">
@@ -9,7 +12,15 @@
                 </div>
                 <div class="mb-3">
                     <label for="targetWeightInput" class="block italic">Target Weight:</label>
-                    <input type="number" class="block border-gray-400 border-solid border-2 rounded" id="targetWeightInput" min="0" step="5" required>
+                    <input
+                        type="number"
+                        class="block border-gray-400 border-solid border-2 rounded"
+                        id="targetWeightInput"
+                        min="0"
+                        step="5"
+                        required
+                        @if(isset($weight)) value="{{$weight}}" @endif
+                    >
                 </div>
                 <div class="mb-3">
                     <label for="barbellWeight" class="block italic">Barbell Weight:</label>
@@ -45,4 +56,5 @@
     <script defer>
         const barbellCalcUrl = '{{ route('calculate_barbell') }}';
     </script>
+    <script src="{{ asset('js/barbellCalculator/app.js') }}" defer></script>
 @endsection
